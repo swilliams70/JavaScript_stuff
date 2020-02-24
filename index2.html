@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/@mdi/font@4.x/css/materialdesignicons.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css" rel="stylesheet">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
+</head>
+<body>
+  <div id="app">
+    <v-app>
+      <v-app-bar
+	    max-height="64"
+        color="deep-purple accent-4"
+        dense
+        dark
+      >
+        <v-app-bar-nav-icon></v-app-bar-nav-icon>
+
+        <v-toolbar-title>Page title</v-toolbar-title>
+
+        <v-spacer></v-spacer>
+
+        <v-btn icon>
+          <v-icon>mdi-heart</v-icon>
+        </v-btn>
+
+        <v-btn icon>
+          <v-icon>mdi-magnify</v-icon>
+        </v-btn>
+
+        <v-menu
+          left
+          bottom
+        >
+          <template v-slot:activator="{ on }">
+            <v-btn icon v-on="on">
+              <v-icon>mdi-dots-vertical</v-icon>
+            </v-btn>
+          </template>
+
+          <v-list>
+            <v-list-item
+              v-for="n in 5"
+              :key="n"
+              @click="() => {}"
+            >
+              <v-list-item-title>Option {{ n }}</v-list-item-title>
+            </v-list-item>
+          </v-list>
+        </v-menu>
+      </v-app-bar>
+	  <v-content>
+        <v-container>
+		<v-btn icon><i class="material-icons md-18 md-light md-inactive">desktop_access_disabled</i></v-btn>
+    	<v-btn icon><i class="material-icons">desktop_windows</i></v-btn>
+		Hello world
+		</v-container>
+      </v-content>
+    </v-app>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.x/dist/vue.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.js"></script>
+  <script>
+    new Vue({
+      el: '#app',
+      vuetify: new Vuetify(),
+    })
+  </script>
+</body>
+</html>
+
+
