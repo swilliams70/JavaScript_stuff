@@ -1,70 +1,81 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <link href="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/@mdi/font@4.x/css/materialdesignicons.min.css" rel="stylesheet">
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
+  <link href="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css" rel="stylesheet">
 </head>
 <body>
   <div id="app">
     <v-app>
-      <v-app-bar
-	    max-height="64"
-        color="deep-purple accent-4"
-        dense
-        dark
-      >
-        <v-app-bar-nav-icon></v-app-bar-nav-icon>
+	  <v-card
+		class="mx-auto"
+		max-width="500"
+	  >
+		<v-system-bar
+		  color="indigo darken-2"
+		  dark
+		>
+		  <v-spacer></v-spacer>
 
-        <v-toolbar-title>Page title</v-toolbar-title>
+		  <v-icon>mdi-window-minimize</v-icon>
 
-        <v-spacer></v-spacer>
+		  <v-icon>mdi-window-maximize</v-icon>
 
-        <v-btn icon>
-          <v-icon>mdi-heart</v-icon>
-        </v-btn>
+		  <v-icon>mdi-close</v-icon>
+		</v-system-bar>
 
-        <v-btn icon>
-          <v-icon>mdi-magnify</v-icon>
-        </v-btn>
+		<v-toolbar
+		  color="indigo"
+		  dark
+		>
+		  <v-app-bar-nav-icon></v-app-bar-nav-icon>
 
-        <v-menu
-          left
-          bottom
-        >
-          <template v-slot:activator="{ on }">
-            <v-btn icon v-on="on">
-              <v-icon>mdi-dots-vertical</v-icon>
-            </v-btn>
-          </template>
+		  <v-toolbar-title>Discover</v-toolbar-title>
 
-          <v-list>
-            <v-list-item
-              v-for="n in 5"
-              :key="n"
-              @click="() => {}"
-            >
-              <v-list-item-title>Option {{ n }}</v-list-item-title>
-            </v-list-item>
-          </v-list>
-        </v-menu>
-      </v-app-bar>
-	  <v-content>
-	  
-	    <v-expansion-panels>
-			<v-expansion-panel
-			  v-for="(item,i) in 5"
-			  :key="i"
+		  <v-spacer></v-spacer>
+
+		  <v-btn icon>
+			<v-icon>mdi-magnify</v-icon>
+		  </v-btn>
+		</v-toolbar>
+
+		<v-container fluid>
+		  <v-row dense>
+			<v-col
+			  v-for="card in cards"
+			  :key="card.title"
+			  :cols="card.flex"
 			>
-			  <v-expansion-panel-header>Item {{i}}</v-expansion-panel-header>
-			  <v-expansion-panel-content>
-				<v-btn icon><v-icon color="green darken-3">mdi-monitor</v-icon></v-btn>
-				<v-btn icon><v-icon color="yellow darken-3">mdi-monitor</v-icon></v-btn>
-				<v-btn icon><v-icon color="red darken-3">mdi-monitor-off</v-icon></v-btn>
-			  </v-expansion-panel-content>
-			</v-expansion-panel>
-		  </v-expansion-panels>
-      </v-content>
+			  <v-card>
+				<v-img
+				  :src="card.src"
+				  class="white--text align-end"
+				  gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
+				  height="200px"
+				>
+				  <v-card-title v-text="card.title"></v-card-title>
+				</v-img>
+
+				<v-card-actions>
+				  <v-spacer></v-spacer>
+
+				  <v-btn icon>
+					<v-icon>mdi-heart</v-icon>
+				  </v-btn>
+
+				  <v-btn icon>
+					<v-icon>mdi-bookmark</v-icon>
+				  </v-btn>
+
+				  <v-btn icon>
+					<v-icon>mdi-share-variant</v-icon>
+				  </v-btn>
+				</v-card-actions>
+			  </v-card>
+			</v-col>
+		  </v-row>
+		</v-container>
+	  </v-card>
     </v-app>
   </div>
 
@@ -73,8 +84,16 @@
   <script>
     new Vue({
       el: '#app',
+	  data: () => ({
+		cards: [
+		  { title: 'Pre-fab homes', src: 'https://cdn.vuetifyjs.com/images/cards/house.jpg', flex: 12 },
+		  { title: 'Favorite road trips', src: 'https://cdn.vuetifyjs.com/images/cards/road.jpg', flex: 6 },
+		  { title: 'Best airlines', src: 'https://cdn.vuetifyjs.com/images/cards/plane.jpg', flex: 6 },
+	    ],
+	  }),
       vuetify: new Vuetify(),
     })
   </script>
 </body>
 </html>
+
