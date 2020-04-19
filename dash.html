@@ -5,18 +5,69 @@
   <link href="https://cdn.jsdelivr.net/npm/@mdi/font@4.x/css/materialdesignicons.min.css" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css" rel="stylesheet">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
+  <style>
+	h1 {
+		position: relative;
+		font-size: 30px;
+		z-index: 1;
+		overflow: hidden;
+		text-align: left;
+	}
+	.color {
+		background-color: #ccc;
+	}
+  
+	table {
+	  font-family: 'Open Sans', sans-serif;
+	  width: 750px;
+	  border-collapse: collapse;
+	  border: 3px solid #44475C;
+	  margin: 10px 10px 0 10px;
+	}
+
+	table th {
+	  text-transform: uppercase;
+	  text-align: left;
+	  background: #44475C;
+	  color: #FFF;
+	  padding: 8px;
+	  min-width: 30px;
+	}
+
+	table td {
+	  text-align: left;
+	  padding: 8px;
+	  border-right: 2px solid #7D82A8;
+	}
+	table td:last-child {
+	  border-right: none;
+	}
+	table tbody tr:nth-child(2n) td {
+	  background: #D4D8F9;
+	}
+  </style>
 </head>
 <body>
   <div id='app'>
     <v-app>
       <v-content>
-        <v-btn @click="get_json()">Get JSON</v-btn>
-		<div>
-		  <p>
-			{{display_data}}
-		  </p>
-		</div>
-      </v-content>
+        <v-btn @click="getDomains()">Get JSON</v-btn>
+		  <div v-for='domain in domains'>
+		  <h1>{{domain["name"]}}</h1>
+			<table>
+			  <thead>
+				<tr>
+				  <th v-for='field in machineFields'>{{field}}</th>
+				</tr>
+			  </thead>
+			  <tbody>
+				<tr v-for='machine in domain["machines"]'>
+				  <td v-for='field in machineFields'>{{machine[field]}}</td>
+				</tr>
+			  </tbody>
+			</table>
+		  </div>
+	  </v-content>
     </v-app>
   </div>
 
@@ -27,23 +78,20 @@
     new Vue({
       el: '#app',
       vuetify: new Vuetify(),
-	  data(){return{group_data: null, display_data: null}},	  
+	  data(){return{
+		domains: [], 
+		machineFields: ['name','ipAddress','currentUsername','statusUp','lastReportedUtc']}},
 	  methods: 
 	    {
-		get_json: async function ()
+		getDomains: async function ()
 			{
 			let url = "http://localhost:8888/json";
-			let response = await axios.get("http://localhost:8888/json").then(response => (group_data = response.data));
-			
-			for (var obj in group_data) {
-					if (group_data[obj] = group_data[obj]["name"]) {
-						this.display_data = this.display_data + group_data[obj]["name"];
-						};
-					}
-			this.group_data=response[0]["name"];
-			}
+			let response = await axios.get(url);
+
+			this.domains = response.data;
+			},
 		}
-    })
+	})
   </script>
 </body>
 </html>
