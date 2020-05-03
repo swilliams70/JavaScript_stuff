@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+<head>
+<!--
+  <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/@mdi/font@4.x/css/materialdesignicons.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.css" rel="stylesheet">
+-->
+  <link href="/vuetify.css" rel="stylesheet">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
+  <style>
+	h1 {
+		position: relative;
+		font-size: 12px;
+		z-index: 1;
+		overflow: hidden;
+		text-align: left;
+	}
+	h1:before, h1:after {
+		position: absolute;
+		top: 51%;
+		overflow: hidden;
+		width: 50%;
+		height: 1px;
+		content: '\a0';
+		background-color: red;
+	}
+	h1:before {
+		margin-left: -50%;
+		text-align: right;
+	}
+	.color {
+		background-color: #ccc;
+	}
+  
+	table {
+	  font-family: 'Open Sans', sans-serif;
+	  width: 750px;
+	  border-collapse: collapse;
+	  border: 3px solid #44475C;
+	  margin: 10px 10px 0 10px;
+	}
+
+	table th {
+	  text-transform: uppercase;
+	  text-align: left;
+	  background: #44475C;
+	  color: #FFF;
+	  padding: 8px;
+	  min-width: 30px;
+	}
+
+	table td {
+	  text-align: left;
+	  padding: 8px;
+	  border-right: 2px solid #7D82A8;
+	}
+	table td:last-child {
+	  border-right: none;
+	}
+	table tbody tr:nth-child(2n) td {
+	  background: #D4D8F9;
+	}
+  </style>
+</head>
+<body>
+
+<div id="app">
+  <v-app id="inspire">
+    <v-card>
+      <v-toolbar flat color="primary" dark>
+        <v-btn @click="getDomains()">Get JSON</v-btn>
+      </v-toolbar>
+      <v-tabs vertical>
+          <v-tab v-for='domain in domains' :key='domain["id"]'>
+            <v-icon left>mdi-folder-network</v-icon>
+	  		{{domain["name"]}}
+          </v-tab>
+		  <v-tab-item v-for='domain in domains' :key='domain["id"]'>
+			<table>
+			  <thead>
+				<tr>
+				  <th v-for='field in machineFields'>{{field}}</th>
+				</tr>
+			  </thead>
+			  <tbody>
+				<tr v-for='machine in domain["machines"]'>
+				  <td v-for='field in machineFields'>{{machine[field]}}</td>
+				</tr>
+			  </tbody>
+			</table>
+		  </v-tab-item>
+      </v-tabs>
+    </v-card>
+  </v-app>
+</div>
+
+<!--
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.x/dist/vue.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.js"></script>
+  <script src="https://unpkg.com/axios/dist/axios.js"></script>
+-->
+  <script src = "/vue.js"></script>
+  <script src = "/vuetify.js"></script>
+  <script src = "/axios.js"></script>
+  <script type="text/javascript">
+    new Vue({
+      el: '#app',
+      vuetify: new Vuetify(),
+	  data(){return{
+		domains: [], 
+		machineFields: ['name','ipAddress','currentUsername','statusUp','lastReportedUtc']}},
+	  methods: 
+	    {
+		getDomains: async function ()
+			{
+			<!--let url = "http://localhost:8888/json";-->
+			let url = "http://ghosts-c2:5000/api/MachineGroups";
+			let response = await axios.get(url);
+
+			this.domains = response.data;
+			},
+		}
+	})
+  </script>
+</body>
+</html>
